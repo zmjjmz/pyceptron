@@ -1,3 +1,67 @@
+class Pyceptron:
+
+
+	def __init__(self, dimension=2):
+		self._dimension = dimension
+		self._points = []
+		self._weights = [0] * (dimension) + [1]
+
+
+	def populate(self, points=None):
+		if points != None:
+			self._points += points
+		return self._points
+
+
+
+	def weights(self, weights=None):
+		if weights != None:
+			self._weights = weights
+		return self._weights
+
+
+	def _update(self, point, direction):
+		point = [1] + list(point)
+		for dim in range(self._dimension):
+			self._weights[dim] += point[dim] * direction
+
+
+	def _classify(self, point):
+		point = [1] + list(point)
+
+		def dot(u, v):
+			result = 0.0
+			for index in range(len(u)):
+				result += u[index] * v[index]
+			return result
+
+		def sign(value):
+			return -1 if value < 0 else 1
+
+		return sign(dot(self._weights, point))
+
+
+	def train(self, steps=None):
+
+		while True:
+
+			if steps != None:
+				if steps == 0:
+					return False
+				steps -= 1
+
+			target = None
+
+			for point in self._points:
+				if sign(point[1]) != self._classify(point[0]):
+					self._update(point[0], point[1])
+					break
+			else:
+				return True
+
+
+
+
 from matplotlib import pyplot as plt
 from random import randint, uniform
 
@@ -35,72 +99,6 @@ def render(points, weights, ideal):
 	# print([0, 5], [line(weights, 0), line(weights, 5)])
 
 	plt.show()
-
-
-
-
-
-
-class Pyceptron:
-
-
-	def __init__(self, dimension=2):
-		self._dimension = dimension
-		self._points = None
-		self._weights = [0] * (dimension) + [1]
-
-
-	def populate(self, points):
-		self._points = points
-
-
-	def weights(self, weights=None):
-		if weights != None:
-			self._weights = weights
-		return self._weights
-
-
-	def train(self, pick=None):
-
-		count = 0
-		while True:
-
-
-			target = None
-
-			# if pick == None:
-			for point in self._points:
-				if sign(point[1]) != sign(dot(self._weights, [1] + list(point[0]))):
-					target = point
-					break
-			# else:
-				# point = pick(points)
-
-			print(self._weights)
-			global ideal
-			# render(self._points, self._weights, ideal)
-
-			if target == None:
-				print('FOUND A SOLUTION after %d steps' % (count))
-				return True
-
-			# print('=================')
-			# print(target)
-
-			# self._weights[0] += 1 * target[1]
-			# for dim in range(1, self._dimension + 1):
-				# self._weights[dim] += target[1] * target[0][dim - 1]
-
-			self._weights[0] += target[1] * 1
-			self._weights[1] += target[1] * target[0][0]
-			self._weights[2] += target[1] * target[0][1]
-			count += 1
-
-
-
-
-
-
 
 
 
