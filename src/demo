@@ -55,12 +55,16 @@ def main(argv=None):
 		argv = sys.argv
 	argc = len(argv)
 
+	count = 500
+	if argc >= 2:
+		count = int(argv[1])
+
 	# Our 'ideal' weights, used to create training data
 	ideal = [34,77,81]
 
 	# Create and classify some points
 	points = []
-	for _ in range(500):
+	for _ in range(count):
 		x = uniform(-10, 10)
 		y = uniform(-10, 10)
 		h = classify((x,y), ideal)
