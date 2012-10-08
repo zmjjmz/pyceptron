@@ -35,7 +35,6 @@ class Pyceptron:
 		point = [1.0] + list(point)
 		for i in range(len(point)):
 			self._weights[i] += direction * point[i]
-		print(self.weights())
 
 
 	def _classify(self, point):
