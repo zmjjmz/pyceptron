@@ -5,6 +5,7 @@ class Pyceptron:
 		self._dimension = dimension
 		self._points = []
 		self._weights = [0] * (dimension + 1)
+		self._steps = 0
 
 
 	def populate(self, points=None):
@@ -29,6 +30,12 @@ class Pyceptron:
 			return [dim/length for dim in v]
 
 		return normalize(self._weights)
+
+
+	def steps(self, steps=None):
+		if steps != None:
+			self._steps = steps
+		return self._steps
 
 
 	def _update(self, point, direction):
@@ -64,6 +71,7 @@ class Pyceptron:
 				if steps == 0:
 					return False
 				steps -= 1
+			self._steps += 1
 
 			target = None
 
