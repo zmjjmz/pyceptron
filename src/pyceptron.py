@@ -4,7 +4,7 @@ class Pyceptron:
 	def __init__(self, dimension=2):
 		self._dimension = dimension
 		self._points = []
-		self._weights = [0] * (dimension) + [1]
+		self._weights = [0] * (dimension + 1)
 
 
 	def populate(self, points=None):
@@ -24,16 +24,18 @@ class Pyceptron:
 			for dim in v:
 				sum += dim * dim
 			length = sqrt(sum)
+			if length == 0:
+				return [0.0] * len(v)
 			return [dim/length for dim in v]
 
 		return normalize(self._weights)
 
 
 	def _update(self, point, direction):
-		point = [1] + list(point)
-		for dim in range(self._dimension):
-			self._weights[dim] += point[dim] * direction
-		# print(self.weights())
+		point = [1.0] + list(point)
+		for i in range(len(point)):
+			self._weights[i] += direction * point[i]
+		print(self.weights())
 
 
 	def _classify(self, point):
@@ -46,7 +48,11 @@ class Pyceptron:
 			return result
 
 		def sign(value):
-			return -1 if value < 0 else 1
+			if value > 0:
+				return 1
+			if value < 0:
+				return -1
+			return 0
 
 		return sign(dot(self._weights, point))
 
