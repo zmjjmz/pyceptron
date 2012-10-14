@@ -70,6 +70,13 @@ if tron.train(100) != True:
 else:
 	print('A solution was found!')
 
+# You can even give it a max precision!
+tron.SetErrorThreshold(0.05)
+if tron.train(True) != True:
+	print('No solution was found with an error below 5%')
+else:
+	print('A solution was found with an error below 5%')
+
 # Of course, you can keep training without losing state
 if tron.train(100) != True:
 	print('No solution was found in 100 iterations...')

@@ -6,8 +6,8 @@ class Pyceptron:
 		self._points = []
 		self._weights = [0] * (dimension + 1)
 		self._steps = 0
-        self._Ein = []
-        self._errlimit = 0
+		self._Ein = []
+		self._errlimit = 0
 
 
 	def populate(self, points=None):
@@ -64,25 +64,25 @@ class Pyceptron:
 
 		return sign(dot(self._weights, point))
 
-    def Compute_Ein(self):
-        Ein = 0
-        for i in self._points:
-            if i[1] != self._classify(i[0]):
-                Ein += 1
-        Ein /= len(self._points)
-        return Ein
+	def _ein(self):
+		Ein = 0
+		for i in self._points:
+			if i[1] != self._classify(i[0]):
+				Ein += 1
+		Ein /= len(self._points)
+		return Ein
 
-    def Error(self):
-        return self._Ein
+	def Error(self):
+		return self._Ein
 
-    def SetErrorThreshold(self, threshold):
-        self._errlimit = threshold
+	def SetErrorThreshold(self, threshold):
+		self._errlimit = threshold
 
 
 
 	def train(self, steps=None, pocket=False):
 
-        Ein = 1
+		Ein = 1
 
 		while True:
 
@@ -94,14 +94,14 @@ class Pyceptron:
 
 			target = None
 
-            if pocket:
-                new_Ein = Compute_Ein()
-                if new_Ein < Ein:
-                    Ein = new_Ein
-                if new_Ein < self._errlimit:
-                    return True
-                self._Ein.append(new_Ein)
-                
+			if pocket:
+				new_Ein = _ein()
+				if new_Ein < Ein:
+					Ein = new_Ein
+				if new_Ein < self._errlimit:
+					return True
+				self._Ein.append(new_Ein)
+				
 
 			for point in self._points:
 				if point[1] != self._classify(point[0]):
